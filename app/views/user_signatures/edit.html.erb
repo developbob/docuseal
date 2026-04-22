@@ -33,9 +33,7 @@
         <input name="file" class="hidden" data-target="typed-signature-form.input" type="file" accept="image/png,image/jpeg,image/jpg">
         <input type="text" data-target="typed-signature-form.textInput" class="base-input !text-2xl w-full mt-4" placeholder="<%= t('type_signature_here') %>...">
         <select data-target="typed-signature-form.fontSelect" class="base-input mt-2 text-sm">
-          <% signature_fonts.each do |font_name| %>
-            <option value="<%= font_name %>" <%= 'selected' if font_name == saved_font %>><%= font_name %></option>
-          <% end %>
+          <%= options_for_select(signature_fonts.map { |f| [f, f] }, saved_font) %>
         </select>
         <input type="hidden" name="font" value="<%= saved_font %>" data-target="typed-signature-form.fontHidden">
         <div class="form-control mt-4">
