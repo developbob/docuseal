@@ -5,7 +5,8 @@ require 'templates/field_detection'
 require 'templates/field_detection/config_based'
 
 RSpec.describe Templates::FieldDetection::ConfigBased do
-  let(:template) { create(:template) }
+  let(:user) { create(:user) }
+  let(:template) { create(:template, account: user.account, author: user) }
   let(:attachment) { template.schema_documents.first }
   let(:documents) { template.schema_documents.preload(:blob) }
 
@@ -107,7 +108,7 @@ RSpec.describe Templates::FieldDetection::ConfigBased do
 
     context 'with no attachment' do
       it 'returns empty array' do
-        empty_template = create(:template, attachment_count: 0)
+        empty_template = create(:template, account: user.account, author: user, attachment_count: 0)
 
         config = { 'submitters' => [], 'fields' => [] }
         result = described_class.call(empty_template, config)
