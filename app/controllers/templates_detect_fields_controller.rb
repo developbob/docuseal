@@ -20,7 +20,7 @@ class TemplatesDetectFieldsController < ApplicationController
 
     fields = Templates::FieldDetection.call(@template, params[:algorithm], documents)
 
-    render json: { fields: fields, completed: true }
+    render json: { fields: fields, submitters: @template.submitters, completed: true }
   rescue ArgumentError => e
     render json: { error: e.message }, status: :unprocessable_content
   end
