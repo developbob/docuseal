@@ -82,6 +82,18 @@ class AccountConfig < ApplicationRecord
     'Herr Von Muellerhoff'
   ].freeze
 
+  SANS_SERIF_BRAND_FONTS = %w[Inter system-ui].freeze
+
+  def self.brand_font_css(font_name)
+    return nil unless font_name.present? && BRAND_NAME_FONTS.include?(font_name)
+
+    if SANS_SERIF_BRAND_FONTS.include?(font_name)
+      font_name == 'system-ui' ? 'system-ui, sans-serif' : "'#{font_name}', sans-serif"
+    else
+      "'#{font_name}', cursive"
+    end
+  end
+
   EMAIL_VARIABLES = {
     SUBMITTER_INVITATION_EMAIL_KEY => %w[template.name submitter.link account.name].freeze,
     SUBMITTER_COMPLETED_EMAIL_KEY => %w[template.name submission.submitters submission.link].freeze,

@@ -6,8 +6,9 @@
    end
    brand_name = brand_name.presence || 'DocuSeal'
    brand_font = brand_font.presence %>
-<% if brand_font && AccountConfig::BRAND_NAME_FONTS.include?(brand_font) %>
-  <span style="font-family: '<%= brand_font %>', cursive;"><%= brand_name %></span>
+<% brand_font_css = AccountConfig.brand_font_css(brand_font) %>
+<% if brand_font_css %>
+  <span style="font-family: <%= brand_font_css %>;"><%= brand_name %></span>
 <% else %>
   <span><%= brand_name %></span>
 <% end %>

@@ -13,8 +13,9 @@
        end
        mailer_brand_name = mailer_brand_name.presence
        mailer_brand_font = mailer_brand_font.presence %>
+    <% mailer_font_css = AccountConfig.brand_font_css(mailer_brand_font) %>
     <% if mailer_brand_name %>
-      <div style="margin-bottom: 16px; font-size: 20px; font-weight: bold;<%= " font-family: '#{mailer_brand_font}', cursive;" if mailer_brand_font && AccountConfig::BRAND_NAME_FONTS.include?(mailer_brand_font) %>">
+      <div style="margin-bottom: 16px; font-size: 20px; font-weight: bold;<%= " font-family: #{mailer_font_css};" if mailer_font_css %>">
         <%= mailer_brand_name %>
       </div>
     <% end %>
