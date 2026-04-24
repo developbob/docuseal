@@ -26,12 +26,12 @@
           <span class="label-text-alt text-base-content/60" title="<%= t('locked_by_env') %>"><%= t('locked_by_env') %></span>
         <% end %>
       </label>
-      <select name="account_config[value]" class="base-input" <%= 'disabled' if brand_font_locked %>>
-        <option value=""><%= t('default') %></option>
-        <% AccountConfig::BRAND_NAME_FONTS.each do |font| %>
-          <option value="<%= font %>" <%= 'selected' if brand_font_value == font %> style="font-family: '<%= font %>';"><%= font %></option>
-        <% end %>
-      </select>
+      <%= select_tag 'account_config[value]',
+                    options_for_select(
+                      [[t('default'), '']] + AccountConfig::BRAND_NAME_FONTS.map { |f| [f, f] },
+                      brand_font_value
+                    ),
+                    class: 'base-input', disabled: brand_font_locked %>
     </div>
     <div class="form-control pt-2">
       <%= f.button button_title(title: t('save'), disabled_with: t('saving')), class: 'base-button', disabled: brand_font_locked %>
