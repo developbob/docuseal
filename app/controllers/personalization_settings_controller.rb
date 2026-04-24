@@ -11,6 +11,8 @@ class PersonalizationSettingsController < ApplicationController
     AccountConfig::SHOW_CONSOLE_LINK_KEY,
     AccountConfig::SHOW_API_LINK_KEY,
     AccountConfig::SHOW_TEST_MODE_KEY,
+    AccountConfig::BRAND_NAME_KEY,
+    AccountConfig::BRAND_NAME_FONT_KEY,
     *(Docuseal.multitenant? ? [] : [AccountConfig::POLICY_LINKS_KEY])
   ].freeze
 

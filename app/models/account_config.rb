@@ -63,6 +63,24 @@ class AccountConfig < ApplicationRecord
   SHOW_CONSOLE_LINK_KEY = 'show_console_link'
   SHOW_API_LINK_KEY = 'show_api_link'
   SHOW_TEST_MODE_KEY = 'show_test_mode'
+  BRAND_NAME_KEY = 'brand_name'
+  BRAND_NAME_FONT_KEY = 'brand_name_font'
+
+  BRAND_NAME_FONTS = [
+    'Inter',
+    'system-ui',
+    'Dancing Script',
+    'Great Vibes',
+    'Pacifico',
+    'Caveat',
+    'Homemade Apple',
+    'Mrs Saint Delafield',
+    'Shadows Into Light',
+    'Alex Brush',
+    'Kalam',
+    'Sacramento',
+    'Herr Von Muellerhoff'
+  ].freeze
 
   EMAIL_VARIABLES = {
     SUBMITTER_INVITATION_EMAIL_KEY => %w[template.name submitter.link account.name].freeze,
@@ -117,7 +135,7 @@ class AccountConfig < ApplicationRecord
 
   # Returns the raw ENV value for a key (or nil if not set).
   def self.env_override(key)
-    ENV[env_key_for(key)]
+    ENV.fetch(env_key_for(key), nil)
   end
 
   # True when the corresponding ENV variable is set (non-nil, non-empty).
