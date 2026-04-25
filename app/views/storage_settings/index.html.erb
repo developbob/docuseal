@@ -7,7 +7,7 @@
     <% external_storage = ExternalConfig.storage_configured? %>
     <% if external_storage %>
       <div class="alert alert-info mb-4" role="status">
-        Storage is configured via environment variables. These settings are read-only.
+        <%= t('storage_is_configured_via_environment_variables') %>
       </div>
       <% ext = ExternalConfig.storage_settings %>
       <% value = ext %>
