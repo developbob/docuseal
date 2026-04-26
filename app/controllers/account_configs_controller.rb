@@ -28,6 +28,7 @@ class AccountConfigsController < ApplicationController
     AccountConfig::ENABLE_MCP_KEY,
     AccountConfig::IP_ALLOWLIST_KEY,
     AccountConfig::AUTO_ARCHIVE_DAYS_KEY
+    AccountConfig::REQUIRE_CONSENT_KEY
   ].freeze
 
   InvalidKey = Class.new(StandardError)
