@@ -99,7 +99,7 @@
       type="submit"
       name="completed"
       value="true"
-      :disabled="isSubmittingComplete || (requireConsent && !consentAccepted)"
+      :disabled="isSubmittingComplete || (requireConsent && !consentAccepted) || (requireIdVerification && !idDocumentUploaded)"
     >
       <span class="flex items-center">
         <IconInnerShadowTop
@@ -1688,6 +1688,10 @@ export default {
       const forceComplete = e?.submitter?.getAttribute('name') === 'completed'
 
       if (this.requireConsent && !this.consentAccepted && (this.isLastStep || forceComplete)) {
+        return
+      }
+
+      if (this.requireIdVerification && !this.idDocumentUploaded) {
         return
       }
 
