@@ -571,7 +571,7 @@
           :class="currentField.type === 'signature' ? 'mt-2' : 'mt-4 md:mt-6'"
         >
           <label
-            v-if="requireConsent && isLastStep && !consentAccepted"
+            v-if="requireConsent && isLastStep"
             class="flex items-start space-x-2 mb-3 cursor-pointer consent-label"
           >
             <input
