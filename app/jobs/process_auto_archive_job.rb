@@ -3,6 +3,8 @@
 class ProcessAutoArchiveJob
   include Sidekiq::Job
 
+  sidekiq_options retry: 0
+
   INTERVAL = 24.hours
 
   def perform
