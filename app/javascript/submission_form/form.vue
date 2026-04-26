@@ -1646,6 +1646,10 @@ export default {
       return this.$refs.areas.scrollIntoArea(area)
     },
     async submitStep (e) {
+      if (this.requireConsent && this.isLastStep && !this.consentAccepted) {
+        return
+      }
+
       this.isSubmitting = true
 
       const forceComplete = e?.submitter?.getAttribute('name') === 'completed'
