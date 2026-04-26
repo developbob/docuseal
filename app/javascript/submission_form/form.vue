@@ -577,6 +577,7 @@
             <input
               type="checkbox"
               class="base-checkbox mt-0.5 !h-5 !w-5 shrink-0"
+              :checked="consentAccepted"
               @change="onConsentChange($event)"
             >
             <span class="text-xs leading-tight">
