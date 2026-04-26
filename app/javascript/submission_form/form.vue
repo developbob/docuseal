@@ -206,7 +206,23 @@
           type="hidden"
         >
         <div class="md:mt-4">
-          <div v-if="['cells', 'text'].includes(currentField.type)">
+          <div
+            v-if="requireIdVerification && !idDocumentUploaded"
+            class="text-center"
+          >
+            <p class="text-xl sm:text-2xl font-semibold mb-2">
+              {{ t('id_verification_required') }}
+            </p>
+            <p class="text-sm text-base-content/70 mb-4">
+              {{ t('please_upload_id_document') }}
+            </p>
+            <FileDropzone
+              :submitter-slug="submitterSlug"
+              accept="image/*,.pdf"
+              @upload="onIdDocumentUpload"
+            />
+          </div>
+          <div v-else-if="['cells', 'text'].includes(currentField.type)">
             <TextStep
               :key="currentField.uuid"
               v-model="values[currentField.uuid]"
@@ -589,7 +605,7 @@
             ref="submitButton"
             type="submit"
             class="base-button w-full flex justify-center submit-form-button"
-            :disabled="isButtonDisabled || (requireConsent && isLastStep && !consentAccepted)"
+            :disabled="isButtonDisabled || (requireConsent && isLastStep && !consentAccepted) || (requireIdVerification && !idDocumentUploaded)"
           >
             <span class="flex">
               <IconInnerShadowTop
@@ -679,6 +695,7 @@ import ImageStep from './image_step'
 import SignatureStep from './signature_step'
 import InitialsStep from './initials_step'
 import AttachmentStep from './attachment_step'
+import FileDropzone from './dropzone'
 import MultiSelectStep from './multi_select_step'
 import PhoneStep from './phone_step'
 import PaymentStep from './payment_step'
@@ -739,6 +756,7 @@ export default {
     AppearsOn,
     IconWritingSign,
     AttachmentStep,
+    FileDropzone,
     InitialsStep,
     VerificationStep,
     KbaStep,
@@ -872,6 +890,11 @@ export default {
       default: false
     },
     requireConsent: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    requireIdVerification: {
       type: Boolean,
       required: false,
       default: false
@@ -1045,7 +1068,8 @@ export default {
       recalculateButtonDisabledKey: '',
       isAccessibilityMode: false,
       consentAccepted: false,
-      consentRecorded: false
+      consentRecorded: false,
+      idDocumentUploaded: false
     }
   },
   computed: {
@@ -1381,6 +1405,19 @@ export default {
   methods: {
     t (key) {
       return this.i18n[key] || i18n[this.selectedLanguage]?.[key] || i18n.en[key] || key
+    },
+    onIdDocumentUpload (files) {
+      if (files?.length) {
+        this.idDocumentUploaded = true
+
+        if (!this.dryRun) {
+          fetch(this.baseUrl + '/api/submitter_id_documents', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submitter_slug: this.submitterSlug })
+          })
+        }
+      }
     },
     onConsentChange (event) {
       this.consentAccepted = event.target.checked
