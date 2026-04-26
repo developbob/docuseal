@@ -217,7 +217,9 @@
               {{ t('please_upload_id_document') }}
             </p>
             <FileDropzone
+              :message="t('please_upload_id_document')"
               :submitter-slug="submitterSlug"
+              :dry-run="dryRun"
               accept="image/*,.pdf"
               @upload="onIdDocumentUpload"
             />
