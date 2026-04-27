@@ -177,6 +177,7 @@ module Accounts
     return true if Docuseal.multitenant?
     return true if Rails.env.development?
     return true if ENV['SMTP_ADDRESS'].present?
+    return true if ExternalConfig.smtp_configured?
 
     EncryptedConfig.exists?(key: EncryptedConfig::EMAIL_SMTP_KEY)
   end
