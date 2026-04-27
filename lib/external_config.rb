@@ -34,6 +34,27 @@ module ExternalConfig
     ENV.fetch(SMTP_ENV_KEYS[:address], nil).present?
   end
 
+  # Returns a display-friendly hash for the SMTP settings form, keyed to match
+  # the form field names (host, username, security, from_email, etc.).
+  def smtp_display_settings
+    return {} unless smtp_configured?
+
+    security = ENV.fetch(SMTP_ENV_KEYS[:security], nil).to_s.downcase
+    authentication = ENV.fetch(SMTP_ENV_KEYS[:authentication], nil)
+    password = ENV.fetch(SMTP_ENV_KEYS[:password], nil)
+
+    {
+      'host' => ENV.fetch(SMTP_ENV_KEYS[:address], nil),
+      'port' => ENV.fetch(SMTP_ENV_KEYS[:port], '587'),
+      'username' => ENV.fetch(SMTP_ENV_KEYS[:user_name], nil),
+      'password' => password,
+      'domain' => ENV.fetch(SMTP_ENV_KEYS[:domain], nil),
+      'from_email' => ENV.fetch(SMTP_ENV_KEYS[:from], nil),
+      'security' => security.presence || 'none',
+      'authentication' => password.present? ? (authentication.presence || 'plain') : nil
+    }.compact_blank
+  end
+
   # Returns an ActionMailer-compatible SMTP settings hash built from ENV vars.
   # The :from key is returned alongside but is intended for message[:from]
   # rewriting, not for Net::SMTP.
